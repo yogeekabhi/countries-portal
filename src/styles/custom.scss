@@ -1,0 +1,657 @@
+// ======================================================
+// custom.scss — theme tokens + bootstrap import + overrides
+// ======================================================
+
+// 1) Design tokens (edit only if you want to nudge pixels)
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto,
+	'Helvetica Neue', Arial, 'Noto Sans';
+
+$body-bg: #ffffff;
+$body-color: #111111;
+
+$brand-link: #1670ff; // Create account link color (tweak to match)
+$muted-text: #6b6b6b;
+$input-border: #2b2b2b; // input border color seen in mockup
+$button-dark: #333333;
+
+$card-border-radius: 4px;
+$card-padding-x-desktop: 56px; // left/right padding inside white card (desktop)
+$card-padding-y-desktop: 56px;
+
+$left-col-width-px: 420px; // exact left column width for form area (desktop)
+$illustration-max-w: 420px; // controls illustration size
+$social-size: 44px; // social circle diameter
+$sign-button-height: 44px;
+
+// 2) Exact breakpoints to match artboards in your screenshots
+$grid-breakpoints: (
+	xs: 0,
+	sm: 375px,
+	// mobile artboard
+	md: 768px,
+	// tablet
+	lg: 1024px,
+	xl: 1280px,
+	xxl: 1440px
+);
+
+// container max widths tuned for pixel snapping
+$container-max-widths: (
+	sm: 343px,
+	md: 720px,
+	lg: 960px,
+	xl: 1200px,
+	xxl: 1320px
+);
+
+// 3) Bootstrap theme colors (so react-bootstrap uses them)
+$theme-colors: (
+	'primary': $brand-link,
+	'dark': $button-dark
+);
+
+// 4) Import Bootstrap source after tokens
+@import 'bootstrap/scss/bootstrap';
+
+// 5) Custom CSS (component-level) for pixel matching
+:root {
+	--bg-dark: #111111; /* not used here; keep fallback if required */
+}
+
+/* Page background — the screenshot shows a white canvas; center card */
+html,
+body,
+#root {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: $font-family-sans-serif;
+	background: $body-bg;
+	color: $body-color;
+}
+
+/* center container and create large white card */
+.auth-wrap {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 0;
+}
+
+/* the white card */
+.auth-card {
+	background: #ffffff;
+	width: 100%;
+	max-width: 1200px; // change if your Figma card width differs
+	display: flex;
+	box-shadow: none;
+	border-radius: $card-border-radius;
+	overflow: hidden;
+	padding: 0;
+}
+
+/* left and right columns */
+.auth-left,
+.auth-right {
+	padding: $card-padding-y-desktop $card-padding-x-desktop;
+}
+
+/* left column fixed width */
+.auth-left {
+	flex: 0 0 $left-col-width-px;
+	max-width: $left-col-width-px;
+}
+
+/* right column flexible */
+.auth-right {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+/* === Sign in form styles (pixel tuned) === */
+.signin-form-wrap {
+	width: 100%;
+	max-width: 360px; /* matches visual proportion in mockup */
+}
+
+.signin-title {
+	font-size: 24px;
+	font-weight: 700;
+	margin: 0 0 6px 0;
+	color: #222222;
+}
+
+.small-copy {
+	font-size: 12px;
+	color: $muted-text;
+	margin-top: 4px;
+}
+.small-copy .link-create {
+	color: $brand-link;
+	text-decoration: none;
+}
+
+/* input controls pixel tuned */
+.input-plain {
+	height: 40px;
+	padding: 8px 12px;
+	border: 1px solid $input-border;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+/* checkbox spacing */
+.form-check {
+	margin-left: 0;
+}
+
+/* sign in button exact */
+.btn-dark-rect {
+	background: $button-dark;
+	color: #fff;
+	border: none;
+	height: $sign-button-height;
+	box-shadow: none;
+	border-radius: 2px;
+}
+
+/* separator line with text */
+.separator {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-top: 8px;
+}
+.separator::before,
+.separator::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: #e6e6e6;
+}
+.separator-text {
+	font-size: 12px;
+	color: #999;
+	white-space: nowrap;
+	padding: 0 8px;
+}
+
+/* socials */
+.social-row {
+	margin-top: 12px;
+}
+.social-circle {
+	width: $social-size;
+	height: $social-size;
+	border-radius: 50%;
+	border: 1px solid #cfcfcf;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+}
+.social-circle img {
+	width: 18px;
+	height: 18px;
+}
+
+/* illustration panel */
+.illustration-panel {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+.illustration {
+	max-width: $illustration-max-w;
+	width: 100%;
+	height: auto;
+}
+// .key-icon {
+// 	position: absolute;
+// 	top: 28px;
+// 	right: 48px;
+// 	width: 34px;
+// 	height: 34px;
+// }
+
+/* -------- RESPONSIVE RULES (desktop -> mobile) -------- */
+
+/* Mobile: stack the card and hide the illustration */
+@media (max-width: 575px) {
+	.auth-card {
+		flex-direction: column;
+		max-width: 360px; /* match mobile artboard */
+		margin: 0 auto;
+	}
+	.auth-left,
+	.auth-right {
+		padding: 28px 20px;
+	}
+	.auth-right {
+		display: none;
+	} /* hide illustration on mobile */
+	.signin-title {
+		font-size: 18px;
+		text-align: center;
+	}
+	.small-copy {
+		text-align: center;
+		margin-bottom: 12px;
+	}
+	.signin-form-wrap {
+		margin: 0 auto;
+	}
+}
+
+/* Tablet: stack card, hide illustration */
+@media (min-width: 576px) and (max-width: 991px) {
+	.auth-card {
+		flex-direction: column;
+		max-width: 720px;
+	}
+	.auth-right {
+		display: none;
+	}
+	.auth-left {
+		padding: 36px 28px;
+	}
+}
+
+/* medium desktop tweaks */
+@media (min-width: 992px) and (max-width: 1399px) {
+	.signin-title {
+		font-size: 22px;
+	}
+	.auth-left,
+	.auth-right {
+		padding: 40px 40px;
+	}
+}
+
+/* Dashboard.css */
+
+/* Base Styles */
+* {
+	box-sizing: border-box;
+}
+
+.countries-page {
+	min-height: 100vh;
+	background-color: #f8f9fa;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', sans-serif;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 16px;
+}
+
+/* Desktop Navigation */
+.desktop-nav {
+	display: block;
+	padding: 24px 0;
+}
+
+.nav-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.page-title {
+	font-size: 20px;
+	font-weight: bold;
+	color: #111827;
+	margin: 0;
+}
+
+.nav-tabs {
+	display: flex;
+	gap: 32px;
+}
+
+.nav-tab {
+	background: none;
+	border: none;
+	padding: 8px 4px;
+	border-bottom: 2px solid transparent;
+	font-weight: 500;
+	font-size: 14px;
+	color: #6b7280;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.nav-tab:hover {
+	color: #374151;
+	border-bottom-color: #d1d5db;
+}
+
+.nav-tab.active {
+	color: #111827;
+	border-bottom-color: #111827;
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+	display: none;
+	border-bottom: 1px solid #e5e7eb;
+	background-color: white;
+}
+
+.mobile-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px;
+}
+
+.menu-button {
+	padding: 8px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background: white;
+	cursor: pointer;
+	color: #6b7280;
+}
+
+/* Welcome Section */
+.welcome-section {
+	text-align: center;
+	margin: 32px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+}
+
+.welcome-line {
+	width: 64px;
+	height: 2px;
+	background-color: black;
+}
+
+.welcome-title {
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #111827;
+	margin: 0;
+	white-space: nowrap;
+}
+
+/* Hero Section - Desktop */
+.hero-section-desktop {
+	display: block;
+	margin-bottom: 32px;
+}
+
+.hero-grid {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 16px;
+}
+
+.hero-main {
+	grid-column: 1;
+}
+
+.hero-sidebar {
+	grid-column: 2;
+}
+
+.hero-card {
+	border: 2px solid black;
+	background: white;
+}
+
+.image-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #e5e7eb;
+	min-height: 200px;
+}
+
+.placeholder-icon {
+	color: #9ca3af;
+}
+
+.carousel-controls {
+	padding: 12px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: white;
+}
+
+.carousel-nav {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.carousel-arrow {
+	cursor: pointer;
+	color: #6b7280;
+	transition: color 0.2s;
+}
+
+.carousel-arrow:hover {
+	color: #111827;
+}
+
+.carousel-dots {
+	display: flex;
+	gap: 4px;
+}
+
+.dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: #9ca3af;
+	transition: background-color 0.2s;
+}
+
+.dot.active {
+	background-color: black;
+}
+
+/* Hero Section - Mobile */
+.hero-section-mobile {
+	display: none;
+	margin-bottom: 32px;
+}
+
+.hero-section-mobile .hero-card {
+	margin-bottom: 16px;
+}
+
+.hero-section-mobile .hero-card:last-child {
+	margin-bottom: 0;
+}
+
+/* Countries Grid */
+.countries-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 16px;
+	margin-bottom: 32px;
+}
+
+.country-card {
+	border: 2px solid black;
+	background: white;
+}
+
+.country-content {
+	display: flex;
+	align-items: center;
+	padding: 16px;
+}
+
+.country-icon {
+	margin-right: 16px;
+	flex-shrink: 0;
+}
+
+.icon-placeholder {
+	width: 127px;
+	height: 96px;
+}
+
+.country-info h3 {
+	font-weight: 600;
+	color: #111827;
+	margin: 0 0 4px 0;
+	font-size: 16px;
+}
+
+.country-info p {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 0;
+}
+
+.countries-loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 24px 0;
+}
+
+/* Load More Button */
+.load-more-section {
+	text-align: center;
+	margin-bottom: 48px;
+}
+
+.load-more-btn {
+	background-color: black;
+	color: white;
+	padding: 12px 32px;
+	font-weight: 500;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.load-more-btn:hover {
+	background-color: #374151;
+}
+
+/* Footer */
+.footer {
+	text-align: center;
+	padding: 32px 0;
+	background-color: white;
+}
+
+.social-icons {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.social-icon {
+	width: 40px;
+	height: 40px;
+	border: 2px solid black;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.social-icon:hover {
+	background-color: #f3f4f6;
+}
+
+.footer-email {
+	margin-bottom: 8px;
+}
+
+.footer-email p,
+.footer-copyright p {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 0;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 1023px) {
+	/* Hide desktop nav, show mobile nav */
+	.desktop-nav {
+		display: none;
+	}
+
+	.mobile-nav {
+		display: block;
+	}
+
+	/* Hide desktop hero, show mobile hero */
+	.hero-section-desktop {
+		display: none;
+	}
+
+	.hero-section-mobile {
+		display: block;
+	}
+
+	/* Single column countries grid */
+	.countries-grid {
+		grid-template-columns: 1fr;
+	}
+
+	/* Adjust welcome title size */
+	.welcome-title {
+		font-size: 2rem;
+	}
+
+	/* Adjust container padding */
+	.container {
+		padding: 0 16px;
+	}
+}
+
+@media (max-width: 768px) {
+	.welcome-title {
+		font-size: 1.75rem;
+	}
+
+	.welcome-line {
+		width: 48px;
+	}
+}
+
+@media (max-width: 480px) {
+	.welcome-section {
+		gap: 12px;
+	}
+
+	.welcome-title {
+		font-size: 1.5rem;
+	}
+
+	.welcome-line {
+		width: 32px;
+	}
+	.icon-placeholder {
+		width: 48px;
+		height: 46px;
+	}
+}
